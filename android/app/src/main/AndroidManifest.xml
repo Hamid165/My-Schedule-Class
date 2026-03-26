@@ -34,6 +34,12 @@
                 android:resource="@xml/jadwal_kelas_widget_info" />
         </receiver>
 
+        <!-- Service penggerak List Item (RemoteViewsFactory) -->
+        <service
+            android:name=".JadwalKelasWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
+
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

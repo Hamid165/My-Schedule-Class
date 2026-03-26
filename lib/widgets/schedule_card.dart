@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/schedule.dart';
+import '../models/task.dart';
 import '../providers/schedule_provider.dart';
 import '../theme/app_theme.dart';
 import '../screens/schedule_form_sheet.dart';
+import '../screens/task_form_sheet.dart';
+import 'package:intl/intl.dart';
 
 /// Card komponen untuk menampilkan satu jadwal kuliah
 class ScheduleCard extends StatelessWidget {
@@ -22,6 +25,8 @@ class ScheduleCard extends StatelessWidget {
     final cardColor = schedule.color;
     final luminance = cardColor.computeLuminance();
     final textOnCard = luminance > 0.4 ? Colors.black87 : Colors.white;
+    
+    final tasks = context.watch<ScheduleProvider>().getTasks(schedule.id);
 
     return GestureDetector(
       onTap: () => _showOptions(context),
@@ -131,6 +136,21 @@ class ScheduleCard extends StatelessWidget {
                   ),
                 ],
               ),
+              if (tasks.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Container(height: 1, color: textOnCard.withValues(alpha: 0.15)),
+                const SizedBox(height: 8),
+                Text(
+                  'Daftar Tugas (${tasks.length})',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: textOnCard.withValues(alpha: 0.9),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ...tasks.map((task) => _TaskTile(task: task, textOnCard: textOnCard)),
+              ],
             ],
           ),
         ),
@@ -194,6 +214,19 @@ class ScheduleCard extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   builder: (_) =>
                       ScheduleFormSheet(schedule: schedule),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_task_rounded),
+              title: const Text('Tambah Tugas Baru'),
+              onTap: () {
+                Navigator.pop(context);
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => TaskFormSheet(scheduleId: schedule.id),
                 );
               },
             ),
@@ -269,6 +302,77 @@ class _InfoChip extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _TaskTile extends StatelessWidget {
+  final Task task;
+  final Color textOnCard;
+
+  const _TaskTile({required this.task, required this.textOnCard});
+
+  @override
+  Widget build(BuildContext context) {
+    IconData statusIcon = Icons.radio_button_unchecked;
+    Color statusColor = textOnCard.withValues(alpha: 0.6);
+
+    if (task.status == 1) {
+      statusIcon = Icons.pending_actions_rounded;
+      statusColor = Colors.orangeAccent;
+    } else if (task.status == 2) {
+      statusIcon = Icons.check_circle_rounded;
+      statusColor = Colors.green.shade600;
+    }
+
+    return GestureDetector(
+      onTap: () {
+        int nextStatus = (task.status + 1) % 3;
+        context.read<ScheduleProvider>().updateTaskStatus(task.id, nextStatus);
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.black.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Icon(statusIcon, size: 20, color: statusColor),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    task.title,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: textOnCard,
+                      decoration: task.status == 2 ? TextDecoration.lineThrough : null,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${task.isGroupTask ? "Kelompok" : "Individu"} • Deadline: ${DateFormat('dd MMM').format(task.deadline)}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: textOnCard.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.touch_app_rounded,
+              size: 16,
+              color: textOnCard.withValues(alpha: 0.4),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

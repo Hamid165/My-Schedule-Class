@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'models/schedule.dart';
+import 'models/task.dart';
 import 'providers/schedule_provider.dart';
 import 'providers/theme_provider.dart';
 import 'services/schedule_service.dart';
@@ -11,6 +13,9 @@ import 'theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Inisialisasi locale data untuk format tanggal (id_ID)
+  await initializeDateFormatting('id_ID', null);
 
   // ─── Inisialisasi Hive (database lokal) ───
   await Hive.initFlutter();
@@ -18,6 +23,11 @@ Future<void> main() async {
   // Daftarkan TypeAdapter untuk model Schedule
   if (!Hive.isAdapterRegistered(0)) {
     Hive.registerAdapter(ScheduleAdapter());
+  }
+
+  // Daftarkan TypeAdapter untuk model Task
+  if (!Hive.isAdapterRegistered(1)) {
+    Hive.registerAdapter(TaskAdapter());
   }
 
   // Buat dan inisialisasi ScheduleService

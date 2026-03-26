@@ -1,53 +1,47 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'schedule.dart';
+part of 'task.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ScheduleAdapter extends TypeAdapter<Schedule> {
+class TaskAdapter extends TypeAdapter<Task> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  Schedule read(BinaryReader reader) {
+  Task read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Schedule(
+    return Task(
       id: fields[0] as String,
-      courseName: fields[1] as String,
-      day: fields[2] as int,
-      startTime: fields[3] as String,
-      endTime: fields[4] as String,
-      room: fields[5] as String,
-      lecturer: fields[6] as String,
-      colorValue: fields[7] as int,
+      scheduleId: fields[1] as String,
+      title: fields[2] as String,
+      deadline: fields[3] as DateTime,
+      isGroupTask: fields[4] as bool,
+      status: fields[5] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Schedule obj) {
+  void write(BinaryWriter writer, Task obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.courseName)
+      ..write(obj.scheduleId)
       ..writeByte(2)
-      ..write(obj.day)
+      ..write(obj.title)
       ..writeByte(3)
-      ..write(obj.startTime)
+      ..write(obj.deadline)
       ..writeByte(4)
-      ..write(obj.endTime)
+      ..write(obj.isGroupTask)
       ..writeByte(5)
-      ..write(obj.room)
-      ..writeByte(6)
-      ..write(obj.lecturer)
-      ..writeByte(7)
-      ..write(obj.colorValue);
+      ..write(obj.status);
   }
 
   @override
@@ -56,7 +50,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ScheduleAdapter &&
+      other is TaskAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

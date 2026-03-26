@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/schedule.dart';
+import '../models/task.dart';
 import '../services/schedule_service.dart';
 
 /// Provider untuk state management jadwal kuliah
@@ -75,22 +76,7 @@ class ScheduleProvider extends ChangeNotifier {
     required Color color,
   }) async {
     try {
-      final temp = Schedule(
-        id: '__temp__',
-        courseName: courseName,
-        day: day,
-        startTime: startTime,
-        endTime: endTime,
-        room: room,
-        lecturer: lecturer,
-        colorValue: color.toARGB32(),
-      );
-
-      if (_service.hasTimeConflict(temp)) {
-        _errorMessage = 'Jadwal bertabrakan dengan jadwal yang sudah ada!';
-        notifyListeners();
-        return false;
-      }
+      // Validasi bentrok jadwal dihapus sesuai permintaan user supaya bisa input jadwal jam yang sama
 
       await _service.addSchedule(
         courseName: courseName,
@@ -114,11 +100,7 @@ class ScheduleProvider extends ChangeNotifier {
   /// Edit jadwal yang sudah ada
   Future<bool> updateSchedule(Schedule schedule) async {
     try {
-      if (_service.hasTimeConflict(schedule, excludeId: schedule.id)) {
-        _errorMessage = 'Jadwal bertabrakan dengan jadwal yang sudah ada!';
-        notifyListeners();
-        return false;
-      }
+      // Validasi bentrok jadwal dihapus sesuai permintaan user
 
       await _service.updateSchedule(schedule);
       await loadSchedules();
@@ -137,6 +119,56 @@ class ScheduleProvider extends ChangeNotifier {
       await loadSchedules();
     } catch (e) {
       _errorMessage = 'Gagal menghapus jadwal: $e';
+      notifyListeners();
+    }
+  }
+
+  // ─────────────────────── Operasi Tugas ───────────────────────
+
+  /// Dapatkan tugas untuk jadwal tertentu
+  List<Task> getTasks(String scheduleId) {
+    return _service.getTasksForSchedule(scheduleId);
+  }
+
+  /// Tambah Tugas Baru
+  Future<void> addTask({
+    required String scheduleId,
+    required String title,
+    required DateTime deadline,
+    required bool isGroupTask,
+  }) async {
+    try {
+      await _service.addTask(
+        scheduleId: scheduleId,
+        title: title,
+        deadline: deadline,
+        isGroupTask: isGroupTask,
+      );
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Gagal menambah tugas: $e';
+      notifyListeners();
+    }
+  }
+
+  /// Ubah Status Tugas
+  Future<void> updateTaskStatus(String taskId, int status) async {
+    try {
+      await _service.updateTaskStatus(taskId, status);
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Gagal mengubah status tugas: $e';
+      notifyListeners();
+    }
+  }
+
+  /// Hapus Tugas
+  Future<void> deleteTask(String taskId) async {
+    try {
+      await _service.deleteTask(taskId);
+      notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Gagal menghapus tugas: $e';
       notifyListeners();
     }
   }

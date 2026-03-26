@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Background Tintable dengan Sudut Melengkung -->
+    <ImageView
+        android:id="@+id/item_bg_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/widget_item_shape" />
+
+    <!-- Area Konten (Susunan 3 Baris Rata Kiri Persis Seperti Gambar) -->
+    <LinearLayout
+        android:id="@+id/item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- Baris 1: Mata Kuliah (Bold, Hitam) -->
+        <TextView
+            android:id="@+id/item_course_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mata Kuliah"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <!-- Baris 2: Ruangan • Dosen (Reguler, Hitam/Abu Tua) -->
+        <TextView
+            android:id="@+id/item_room_lecturer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REK-303  •  Nama Dosen"
+            android:textColor="#1F1F1F"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <!-- Baris 3: Jam (Reguler, Hitam/Abu Tua) -->
+        <TextView
+            android:id="@+id/item_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15:00 - 15:30"
+            android:textColor="#1F1F1F"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Baris 4: Judul Tugas -->
+        <TextView
+            android:id="@+id/item_tasks_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="6dp"
+            android:text="TUGAS"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
+            android:visibility="gone" />
+
+        <!-- STATIC TASK LAYOUT UNTUK LISTVIEW WIDGET (Max 3 Task agar tidak lag/error) -->
+        <LinearLayout
+            android:id="@+id/tasks_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            
+            <!-- Task 1 -->
+            <TextView
+                android:id="@+id/task_title_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#222222"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/task_detail_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:textSize="11sp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="6dp"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/task_divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="6dp"
+                android:background="#20000000"
+                android:visibility="gone"/>
+
+            <!-- Task 2 -->
+            <TextView
+                android:id="@+id/task_title_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#222222"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/task_detail_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:textSize="11sp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="6dp"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/task_divider_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="6dp"
+                android:background="#20000000"
+                android:visibility="gone"/>
+
+            <!-- Task 3 -->
+            <TextView
+                android:id="@+id/task_title_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#222222"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-medium"
+                android:visibility="gone"/>
+            <TextView
+                android:id="@+id/task_detail_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#555555"
+                android:textSize="11sp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="6dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

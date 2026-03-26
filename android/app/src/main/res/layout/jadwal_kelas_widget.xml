@@ -1,51 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_background"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <TextView
-        android:id="@+id/widget_title"
-        android:layout_width="wrap_content"
+    <!-- Header: Hari Ini -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Jadwal Hari Ini"
-        android:textColor="#2D2D2D"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-medium"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <View
+        <TextView
+            android:id="@+id/widget_title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Jadwal Hari Ini"
+            android:textColor="#2D2D2D"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/widget_open_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buka"
+            android:textColor="#D4A853"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <FrameLayout
         android:id="@+id/widget_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1.5dp"
         android:background="#20000000"
-        android:layout_below="@+id/widget_title"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp" />
 
+    <!-- Tampilkan jika sedang kosong -->
     <TextView
-        android:id="@+id/today_schedule"
+        android:id="@+id/empty_schedule_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tidak ada jadwal hari ini"
-        android:textColor="#4A4A4A"
-        android:textSize="12sp"
-        android:lineSpacingMultiplier="1.4"
+        android:text="Belum ada jadwal hari ini.\nSaatnya istirahat! 🎉"
+        android:textColor="#6B6B6B"
+        android:textSize="14sp"
+        android:lineSpacingMultiplier="1.5"
         android:fontFamily="sans-serif"
-        android:layout_below="@+id/widget_divider" />
+        android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/widget_open_app"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Buka Aplikasi"
-        android:textColor="#D4A853"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+    <!-- Menampilkan ListView jadwal (Kotak per jadwal) -->
+    <ListView
+        android:id="@+id/schedule_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="12dp"
+        android:scrollbars="none" />
 
-</RelativeLayout>
+</LinearLayout>
